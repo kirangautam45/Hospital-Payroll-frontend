@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx';
-import type { Employee, ValidationError, UploadResult } from '../types/employee';
+import type { Employee, ValidationError, UploadResult, MultiSheetUploadResult, SheetResult } from '../types/employee';
 
 // Expected column headers (Nepali)
 const EXPECTED_HEADERS = [
@@ -183,6 +183,69 @@ function mapRowToEmployee(
     tax: employee.tax || 0,
     netPayable: employee.netPayable || 0,
   };
+}
+
+export function parseExcelFileAllSheets(file: File): Promise<MultiSheetUploadResult> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target?.result as ArrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
+
+        const sheets: SheetResult[] = [];
+        let overallSuccess = true;
+
+        // Process each sheet
+        workbook.SheetNames.forEach((sheetName) => {
+          const worksheet = workbook.Sheets[sheetName];
+
+          // Convert to JSON with headers
+          const jsonData = XLSX.utils.sheet_to_json<Record<string, unknown>>(worksheet, {
+            defval: '',
+          });
+
+          if (jsonData.length === 0) {
+            sheets.push({
+              sheetName,
+              result: {
+                success: true,
+                totalRows: 0,
+                validRows: 0,
+                duplicates: 0,
+                errors: [],
+                data: [],
+              },
+            });
+          } else {
+            const result = processExcelData(jsonData);
+            if (!result.success) {
+              overallSuccess = false;
+            }
+            sheets.push({
+              sheetName,
+              result,
+            });
+          }
+        });
+
+        resolve({
+          success: overallSuccess,
+          totalSheets: workbook.SheetNames.length,
+          sheets,
+        });
+      } catch (error) {
+        reject(new Error(`Failed to parse Excel file: ${(error as Error).message}`));
+      }
+    };
+
+    reader.onerror = () => {
+      reject(new Error('Failed to read file'));
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
 }
 
 export function validateExcelStructure(file: File): Promise<{ valid: boolean; message: string }> {

@@ -4,8 +4,16 @@ import { useAnalyticsStore } from '../stores/analyticsStore';
 import { useThemeStore } from '../stores/themeStore';
 import { analyticsApi } from '../utils/api';
 import { generateDepartmentReportPDF, generateMonthlyReportPDF } from '../utils/pdfGenerator';
+import { Building2, Calendar, BarChart3, Receipt, FileDown, Download, TrendingUp, TrendingDown, FileBarChart } from 'lucide-react';
 
 type ReportType = 'department' | 'monthly' | 'yearly' | 'tax';
+
+const reportIcons = {
+  department: Building2,
+  monthly: Calendar,
+  yearly: BarChart3,
+  tax: Receipt,
+};
 
 export function Reports() {
   const { dashboard, fetchDashboard } = useAnalyticsStore();
@@ -113,10 +121,10 @@ export function Reports() {
   const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
 
   const reportTypes = [
-    { type: 'department' as ReportType, label: 'Department Summary', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-    { type: 'monthly' as ReportType, label: 'Monthly Report', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
-    { type: 'yearly' as ReportType, label: 'Yearly Report', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-    { type: 'tax' as ReportType, label: 'Tax Deduction', icon: 'M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z' },
+    { type: 'department' as ReportType, label: 'Department Summary' },
+    { type: 'monthly' as ReportType, label: 'Monthly Report' },
+    { type: 'yearly' as ReportType, label: 'Yearly Report' },
+    { type: 'tax' as ReportType, label: 'Tax Deduction' },
   ];
 
   return (
@@ -133,26 +141,27 @@ export function Reports() {
           <div className={`rounded-xl shadow-sm p-4 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
             <h3 className={`font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Report Type</h3>
             <div className="space-y-2">
-              {reportTypes.map(({ type, label, icon }) => (
-                <button
-                  key={type}
-                  onClick={() => setSelectedReport(type)}
-                  className={`w-full text-left px-3 py-3 rounded-lg transition-colors flex items-center gap-3 ${
-                    selectedReport === type
-                      ? isDarkMode
-                        ? 'bg-blue-900/30 text-blue-400 border border-blue-800'
-                        : 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : isDarkMode
-                        ? 'text-gray-300 hover:bg-gray-700/50'
-                        : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
-                  </svg>
-                  {label}
-                </button>
-              ))}
+              {reportTypes.map(({ type, label }) => {
+                const IconComponent = reportIcons[type];
+                return (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedReport(type)}
+                    className={`w-full text-left px-3 py-3 rounded-lg transition-colors flex items-center gap-3 ${
+                      selectedReport === type
+                        ? isDarkMode
+                          ? 'bg-blue-900/30 text-blue-400 border border-blue-800'
+                          : 'bg-blue-50 text-blue-700 border border-blue-200'
+                        : isDarkMode
+                          ? 'text-gray-300 hover:bg-gray-700/50'
+                          : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <IconComponent className="w-5 h-5" />
+                    {label}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Year Filter */}
@@ -186,9 +195,7 @@ export function Reports() {
                     : 'bg-red-600 text-white hover:bg-red-700 disabled:opacity-50'
                 }`}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
-                </svg>
+                <FileDown className="w-4 h-4" />
                 {isGenerating ? 'Generating...' : 'Export PDF'}
               </button>
               <button
@@ -200,9 +207,7 @@ export function Reports() {
                     : 'bg-green-600 text-white hover:bg-green-700 disabled:opacity-50'
                 }`}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
+                <Download className="w-4 h-4" />
                 Export CSV
               </button>
             </div>
@@ -294,13 +299,9 @@ export function Reports() {
                             {index > 0 && (
                               <span className={`flex items-center gap-1 ${change >= 0 ? (isDarkMode ? 'text-green-400' : 'text-green-600') : (isDarkMode ? 'text-red-400' : 'text-red-600')}`}>
                                 {change >= 0 ? (
-                                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                  </svg>
+                                  <TrendingUp className="w-4 h-4" />
                                 ) : (
-                                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                  </svg>
+                                  <TrendingDown className="w-4 h-4" />
                                 )}
                                 {change >= 0 ? '+' : ''}{change.toFixed(1)}%
                               </span>
@@ -372,9 +373,7 @@ export function Reports() {
             {/* No data state */}
             {!dashboard && (
               <div className={`px-6 py-12 text-center ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-                <svg className="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+                <FileBarChart className="w-12 h-12 mx-auto mb-4 opacity-50" />
                 <p>Loading report data...</p>
               </div>
             )}

@@ -1,17 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import { useThemeStore } from '../stores/themeStore'
-import {
-  Sun,
-  Moon,
-  Upload,
-  Search,
-  BarChart3,
-  FileText,
-  UserPlus,
-  Pill,
-  type LucideIcon,
-} from 'lucide-react'
+import { Sun, Moon, Upload, Search, type LucideIcon } from 'lucide-react'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -29,31 +19,31 @@ const navItems: NavItem[] = [
     label: 'Upload',
     icon: Upload,
   },
-  {
-    to: '/pharmacy',
-    label: 'Pharmacy',
-    icon: Pill,
-  },
+  // {
+  //   to: '/pharmacy',
+  //   label: 'Pharmacy',
+  //   icon: Pill,
+  // },
   {
     to: '/lookup',
     label: 'PAN Lookup',
     icon: Search,
   },
-  {
-    to: '/analytics',
-    label: 'Analytics',
-    icon: BarChart3,
-  },
-  {
-    to: '/reports',
-    label: 'Reports',
-    icon: FileText,
-  },
-  {
-    to: '/add-user',
-    label: 'Add User',
-    icon: UserPlus,
-  },
+  // {
+  //   to: '/analytics',
+  //   label: 'Analytics',
+  //   icon: BarChart3,
+  // },
+  // {
+  //   to: '/reports',
+  //   label: 'Reports',
+  //   icon: FileText,
+  // },
+  // {
+  //   to: '/add-user',
+  //   label: 'Add User',
+  //   icon: UserPlus,
+  // },
 ]
 
 export function Layout({ children }: LayoutProps) {
@@ -122,7 +112,11 @@ export function Layout({ children }: LayoutProps) {
                 isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'
               }
             >
-              {isDarkMode ? <Sun className='w-5 h-5' /> : <Moon className='w-5 h-5' />}
+              {isDarkMode ? (
+                <Sun className='w-5 h-5' />
+              ) : (
+                <Moon className='w-5 h-5' />
+              )}
             </button>
             <div
               className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg ${

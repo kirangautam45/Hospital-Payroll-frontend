@@ -25,6 +25,17 @@ export interface UploadResult {
   data: Employee[];
 }
 
+export interface SheetResult {
+  sheetName: string;
+  result: UploadResult;
+}
+
+export interface MultiSheetUploadResult {
+  success: boolean;
+  totalSheets: number;
+  sheets: SheetResult[];
+}
+
 export interface ValidationError {
   row: number;
   field: string;

@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { parseExcelFile, validateExcelStructure } from '../utils/excelParser';
 import type { UploadResult, UploadProgress } from '../types/employee';
+import { Upload, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface ExcelUploadProps {
   onUploadComplete: (result: UploadResult) => void;
@@ -110,19 +111,7 @@ export function ExcelUpload({ onUploadComplete }: ExcelUploadProps) {
         {progress.status === 'idle' && (
           <>
             <div className="mb-4">
-              <svg
-                className="mx-auto h-12 w-12 text-gray-400"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 48 48"
-              >
-                <path
-                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <Upload className="mx-auto h-12 w-12 text-gray-400" />
             </div>
             <p className="text-lg text-gray-600 mb-2">
               Drag and drop your Excel file here
@@ -159,19 +148,7 @@ export function ExcelUpload({ onUploadComplete }: ExcelUploadProps) {
         {progress.status === 'complete' && (
           <div className="py-4">
             <div className="mb-4">
-              <svg
-                className="mx-auto h-12 w-12 text-green-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <CheckCircle className="mx-auto h-12 w-12 text-green-500" />
             </div>
             <p className="text-green-600 font-medium mb-4">{progress.message}</p>
             <button
@@ -187,19 +164,7 @@ export function ExcelUpload({ onUploadComplete }: ExcelUploadProps) {
         {progress.status === 'error' && error && (
           <div className="py-4">
             <div className="mb-4">
-              <svg
-                className="mx-auto h-12 w-12 text-red-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <AlertCircle className="mx-auto h-12 w-12 text-red-500" />
             </div>
             <p className="text-red-600 font-medium mb-4">{error}</p>
             <button

@@ -15,6 +15,7 @@ import { useThemeStore } from '../stores/themeStore'
 import { personApi } from '../utils/api'
 import { generateSalaryHistoryPDF } from '../utils/pdfGenerator'
 import { EmptyState } from '../components/EmptyState'
+import { Search, XCircle, User, DollarSign, Download, FileDown, FileText } from 'lucide-react'
 import type {
   PersonResponse,
   PersonSummary,
@@ -291,19 +292,7 @@ export function Lookup() {
                 isDarkMode ? 'text-gray-500' : 'text-gray-400'
               }`}
             >
-              <svg
-                className='w-5 h-5'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                />
-              </svg>
+              <Search className='w-5 h-5' />
             </div>
             <input
               type='text'
@@ -397,13 +386,7 @@ export function Lookup() {
                 : 'bg-red-50 text-red-600'
             }`}
           >
-            <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
-              <path
-                fillRule='evenodd'
-                d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                clipRule='evenodd'
-              />
-            </svg>
+            <XCircle className='w-5 h-5' />
             <span className='text-sm'>{error}</span>
           </div>
         )}
@@ -435,21 +418,11 @@ export function Lookup() {
                     isDarkMode ? 'bg-blue-900/30' : 'bg-blue-100'
                   }`}
                 >
-                  <svg
+                  <User
                     className={`w-5 h-5 ${
                       isDarkMode ? 'text-blue-400' : 'text-blue-600'
                     }`}
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
-                    />
-                  </svg>
+                  />
                 </div>
                 <h3
                   className={`text-lg font-semibold ${
@@ -537,21 +510,11 @@ export function Lookup() {
                     isDarkMode ? 'bg-green-900/30' : 'bg-green-100'
                   }`}
                 >
-                  <svg
+                  <DollarSign
                     className={`w-5 h-5 ${
                       isDarkMode ? 'text-green-400' : 'text-green-600'
                     }`}
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-                    />
-                  </svg>
+                  />
                 </div>
                 <h3
                   className={`text-lg font-semibold ${
@@ -759,17 +722,7 @@ export function Lookup() {
                         : 'bg-green-600 text-white hover:bg-green-700'
                     }`}
                   >
-                    <svg
-                      className='w-4 h-4'
-                      fill='currentColor'
-                      viewBox='0 0 20 20'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z'
-                        clipRule='evenodd'
-                      />
-                    </svg>
+                    <Download className='w-4 h-4' />
                     CSV
                   </button>
                   <button
@@ -780,17 +733,7 @@ export function Lookup() {
                         : 'bg-red-600 text-white hover:bg-red-700'
                     }`}
                   >
-                    <svg
-                      className='w-4 h-4'
-                      fill='currentColor'
-                      viewBox='0 0 20 20'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z'
-                        clipRule='evenodd'
-                      />
-                    </svg>
+                    <FileDown className='w-4 h-4' />
                     PDF
                   </button>
                 </div>
@@ -902,19 +845,7 @@ export function Lookup() {
                   isDarkMode ? 'text-gray-500' : 'text-gray-500'
                 }`}
               >
-                <svg
-                  className='w-12 h-12 mx-auto mb-4 opacity-50'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                  />
-                </svg>
+                <FileText className='w-12 h-12 mx-auto mb-4 opacity-50' />
                 <p>No records found for the selected date range.</p>
               </div>
             )}
@@ -972,7 +903,7 @@ export function Lookup() {
             isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'
           }`}
         >
-          <div className='bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4'>
+          <div className='bg-linear-to-r from-blue-600 to-indigo-600 px-5 py-4'>
             <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
               <div>
                 <h3 className='font-bold text-white text-lg'>
