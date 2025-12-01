@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 import type { AuthResponse, RefreshResponse, LoginRequest, RegisterRequest } from '../types/auth';
-import type { UploadResponse, PersonResponse, PersonSummary, AllSalaryRecordsResponse, AllPersonsResponse } from '../types/api';
+import type { UploadResponse, PersonResponse, PersonSummary, AllSalaryRecordsResponse, AllPersonsResponse, PharmacyUploadResponse, AllPharmacyRecordsResponse, PharmacyRecord } from '../types/api';
 import type {
   DashboardStatsAPI,
   DepartmentSummaryAPI,
@@ -294,6 +294,43 @@ export const analyticsApi = {
       responseType: 'blob',
     });
     return response.data;
+  },
+};
+
+// Pharmacy API
+export const pharmacyApi = {
+  uploadFiles: async (files: File[]): Promise<PharmacyUploadResponse> => {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    const response = await api.post<PharmacyUploadResponse>('/pharmacy/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+
+  getAll: async (
+    page = 1,
+    limit = 50,
+    search?: string
+  ): Promise<AllPharmacyRecordsResponse> => {
+    const response = await api.get<AllPharmacyRecordsResponse>('/pharmacy', {
+      params: { page, limit, search },
+    });
+    return response.data;
+  },
+
+  getByPan: async (pan: string): Promise<PharmacyRecord> => {
+    const response = await api.get<PharmacyRecord>(`/pharmacy/${pan}`);
+    return response.data;
+  },
+
+  delete: async (pan: string): Promise<void> => {
+    await api.delete(`/pharmacy/${pan}`);
   },
 };
 

@@ -140,3 +140,50 @@ export interface AllSalaryRecordsResponse {
   totals: SalaryRecordTotals;
   pagination: Pagination;
 }
+
+// Pharmacy Types
+export interface PharmacyRecord {
+  _id: string;
+  pan: string;
+  name?: string;
+  position?: string;
+  nightDutyCount?: number;
+  rate?: number;
+  grossAmount?: number;
+  taxDeduction?: number;
+  netPayable?: number;
+  accountNumber?: string;
+  source?: string;
+  uploadedAt: string;
+}
+
+export interface PharmacyUploadFileResult {
+  filename: string;
+  rowsRead: number;
+  inserted: number;
+  updated: number;
+  skipped: number;
+  errors: string[];
+  records: Partial<PharmacyRecord>[];
+}
+
+export interface PharmacyUploadResponse {
+  filesProcessed: number;
+  totalRowsRead: number;
+  totalInserted: number;
+  totalUpdated: number;
+  totalSkipped: number;
+  files: PharmacyUploadFileResult[];
+}
+
+export interface PharmacyRecordTotals {
+  totalGross: number;
+  totalNet: number;
+  totalTax: number;
+}
+
+export interface AllPharmacyRecordsResponse {
+  records: PharmacyRecord[];
+  totals: PharmacyRecordTotals;
+  pagination: Pagination;
+}
