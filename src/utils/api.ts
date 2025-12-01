@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
-import type { AuthResponse, RefreshResponse, LoginRequest, RegisterRequest } from '../types/auth';
+import type { AuthResponse, RefreshResponse, LoginRequest, RegisterRequest, GetAllUsersResponse } from '../types/auth';
 import type { UploadResponse, PersonResponse, PersonSummary, AllSalaryRecordsResponse, AllPersonsResponse, PharmacyUploadResponse, AllPharmacyRecordsResponse, PharmacyRecord } from '../types/api';
 import type {
   DashboardStatsAPI,
@@ -154,6 +154,13 @@ export const authApi = {
     } finally {
       clearTokens();
     }
+  },
+
+  getAllUsers: async (page = 1, limit = 10): Promise<GetAllUsersResponse> => {
+    const response = await api.get<GetAllUsersResponse>('/auth/users', {
+      params: { page, limit },
+    });
+    return response.data;
   },
 };
 
